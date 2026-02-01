@@ -1,1 +1,139 @@
 @import "tailwindcss";
+
+/* CSS Variables */
+:root {
+    /* HP2 Colour Palette */
+    --hp-teal: #2db8b0;
+    --hp-teal-dark: #1a8a84;
+    --hp-teal-light: #5dd4cd;
+    --hp-pink: #e84a8a;
+    --hp-pink-light: #f472b6;
+    --hp-pink-dark: #c13070;
+    --hp-gold: #f5c842;
+    --hp-gold-dark: #d4a82a;
+    --hp-orange: #f5a142;
+    --hp-green: #6bc95b;
+    --hp-green-dark: #4fa843;
+    --hp-blue: #5b9fd4;
+    --hp-blue-dark: #4080b8;
+    --hp-purple: #9c6bc9;
+    --hp-red: #e84a4a;
+    --hp-cream: #fff8f0;
+    /* Making My Life Easier Finding Right Sizes */
+    --checker-size: 128px;
+    --scanline-spacing: 4px;
+    --scanline-thickness: 2px;
+    --scanline-alpha: 0.1;
+}
+
+/* Font Faces */
+@font-face {
+    font-family: 'Exo';
+    src: url('/fonts/Exo-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Exo';
+    src: url('/fonts/Exo-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fredoka';
+    src: url('/fonts/Fredoka-VariableFont_wght.ttf') format('truetype');
+    font-weight: 300 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lilita One';
+    src: url('/fonts/LilitaOne-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/fonts/Quicksand-VariableFont_wght.ttf') format('truetype');
+    font-weight: 300 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Body */
+body {
+    font-family: 'Exo', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(26, 138, 132, 0.4);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--hp-teal-light) 0%, var(--hp-teal) 100%);
+    border-radius: 6px;
+    border: 2px solid var(--hp-teal-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--hp-pink-light) 0%, var(--hp-pink) 100%);
+}
+
+/* Utility Classes */
+@layer utilities {
+    .hp-checker-background {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .hp-checker-background::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-color: #0FBECE;
+        background-image:
+            /* scanlines layer */
+            repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,var(--scanline-alpha)) 0px,
+                rgba(0,0,0,var(--scanline-alpha)) calc(var(--scanline-thickness)),
+                transparent calc(var(--scanline-thickness)),
+                transparent calc(var(--scanline-spacing))
+            ),
+            /* checkerboard built from four diagonal gradients */
+            linear-gradient(45deg, #08B7C6 25%, transparent 25%),
+            linear-gradient(-45deg, #08B7C6 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #08B7C6 75%),
+            linear-gradient(-45deg, transparent 75%, #08B7C6 75%);
+        background-size:
+            100% var(--scanline-spacing),
+            var(--checker-size) var(--checker-size),
+            var(--checker-size) var(--checker-size),
+            var(--checker-size) var(--checker-size),
+            var(--checker-size) var(--checker-size);
+        background-position:
+            0 0,
+            0 0,
+            0 calc(var(--checker-size) / 2),
+            calc(var(--checker-size) / 2) calc(var(--checker-size) / -2),
+            calc(var(--checker-size) / -2) 0;
+    }
+}

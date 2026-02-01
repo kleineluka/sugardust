@@ -1,6 +1,7 @@
 # sugardust stuffs
 .indev/
 .vscode/
+sugardust.code-workspace
 
 # build output
 dist/

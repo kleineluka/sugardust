@@ -1,0 +1,36 @@
+---
+import NavButton from "./NavButton.astro";
+
+const navItems = [
+    { icon: "/images/icons/gamepad.png", label: "Installed", active: true },
+    { icon: "/images/icons/search.png", label: "Browse", active: false },
+    { icon: "/images/icons/paint.png", label: "Configuration", active: false },
+    { icon: "/images/icons/box.png", label: "Profiles", active: false },
+    { icon: "/images/icons/heart.png", label: "About", active: false },
+];
+---
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    {navItems.map((item) => (
+        <NavButton icon={item.icon} label={item.label} active={item.active} />
+    ))}
+</nav>
+
+<!-- CSS -->
+<style>
+    .navbar {
+        background: #16638B;
+        border: none;
+        border-top: 3px solid #21A2DE;
+        box-shadow: inset 0 2px 0 rgba(33, 162, 222, 0.3);
+        padding: clamp(8px, 1.5vw, 20px) clamp(12px, 2vw, 24px);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: clamp(4px, 1vw, 12px);
+        margin: 0 clamp(8px, 1.5vw, 20px);
+        position: relative;
+        z-index: 100;
+    }
+</style>

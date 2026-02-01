@@ -1,0 +1,102 @@
+---
+interface Props {
+    icon: string;
+    label: string;
+    active?: boolean;
+    url?: string;
+}
+
+const { icon, label, active = false, url } = Astro.props;
+---
+
+<!-- Navigation Button -->{
+    url ? (
+        <a
+            href={url}
+            class={`nav-button ${active ? "nav-button-active" : ""}`}
+            aria-current={active ? "page" : undefined}
+        >
+            <img src={icon} alt={label} class="nav-icon" />
+            <span class="nav-label">{label.toUpperCase()}</span>
+        </a>
+    ) : (
+        <button class={`nav-button ${active ? "nav-button-active" : ""}`}>
+            <img src={icon} alt={label} class="nav-icon" />
+            <span class="nav-label">{label.toUpperCase()}</span>
+        </button>
+    )
+}
+
+<!-- CSS -->
+<style>
+    .nav-button {
+        display: flex;
+        align-items: center;
+        gap: clamp(8px, 1.2vw, 16px);
+        padding: clamp(8px, 1.2vw + 4px, 16px) clamp(8px, 1.5vw, 24px);
+        border-radius: 12px;
+        background: linear-gradient(135deg, #1c698f 0%, #22739a 100%);
+        border: 2px solid #2b739b;
+        box-shadow:
+            0 0 12px rgba(24, 91, 126, 0.6),
+            0 4px 8px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        flex: 1;
+        justify-content: flex-start;
+        min-width: clamp(120px, 15vw, 200px);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .nav-button:hover {
+        transform: translateY(-2px);
+        box-shadow:
+            0 0 16px rgba(24, 91, 126, 0.8),
+            0 6px 12px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .nav-button-active {
+        background: radial-gradient(
+            ellipse at center,
+            #3d9abc 0%,
+            #2a7292 100%
+        );
+        border: 2px solid #59a1c6;
+        box-shadow:
+            0 0 20px rgba(32, 73, 97, 0.9),
+            0 0 30px rgba(32, 73, 97, 0.5),
+            0 6px 12px rgba(0, 0, 0, 0.4),
+            inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-button-active:hover {
+        transform: translateY(-2px);
+    }
+
+    .nav-icon {
+        width: 28px;
+        height: 28px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+        flex-shrink: 0;
+    }
+
+    .nav-label {
+        font-weight: 700;
+        font-size: clamp(18px, 2.2vw, 24px);
+        line-height: 1.1;
+        letter-spacing: 1.2px;
+        color: #a1d9e5;
+        text-shadow:
+            -1px -1px 0 #2c7693,
+            1px -1px 0 #2c7693,
+            -1px 1px 0 #2c7693,
+            1px 1px 0 #2c7693,
+            0 2px 4px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
