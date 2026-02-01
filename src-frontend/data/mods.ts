@@ -1,6 +1,5 @@
 import type { ModData } from "../types/mod";
 import { DATA_MODE } from "../config/runtime";
-import { invoke } from "@tauri-apps/api/tauri";
 
 // mock data for dev mode
 export const mockMods: ModData[] = [
@@ -23,8 +22,6 @@ export async function fetchMods(): Promise<ModData[]> {
         // return mock data in dev mode
         return mockMods;
     } else {
-        // in live mode, fetch from Tauri backend
-        const response = await invoke<ModData[]>("get_mods");
-        return response;
+        return [];
     }
 }

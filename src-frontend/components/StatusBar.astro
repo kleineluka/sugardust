@@ -1,0 +1,90 @@
+---
+import { appMetadata } from "../data/app";
+---
+
+<!-- Status Bar -->
+<header class="statusbar">
+    <div class="logo-section">
+        <div class="logo-text">sugardust</div>
+        <div class="logo-version">v{appMetadata.version}</div>
+    </div>
+    <slot />
+</header>
+
+<!-- CSS -->
+<style>
+    .statusbar {
+        background: #16638B;
+        border: none;
+        border-bottom: 3px solid #21A2DE;
+        box-shadow: inset 0 -2px 0 rgba(33, 162, 222, 0.3);
+        min-height: 10%;
+        padding: clamp(16px, 3vw, 32px) clamp(20px, 3vw, 40px);
+        margin: 0 clamp(8px, 1.5vw, 20px);
+        position: relative;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        gap: clamp(16px, 4vw, 40px);
+    }
+
+    .logo-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        gap: 4px;
+    }
+
+    .logo-text {
+        font-size: clamp(16px, 2.5vw, 24px);
+        font-weight: 800;
+        letter-spacing: 3px;
+        background: linear-gradient(120deg, #21A2DE, #5DADE2, #21A2DE);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: colourShift 3s ease infinite, intenseglow 2s ease-in-out infinite;
+        filter: drop-shadow(0 0 2px rgba(33, 162, 222, 0.6));
+    }
+
+    .logo-version {
+        font-size: clamp(10px, 1.3vw, 13px);
+        background: linear-gradient(90deg, #21A2DE, #5DADE2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 600;
+        letter-spacing: 1px;
+        animation: subtleglow 1.5s ease-in-out infinite;
+    }
+
+    @keyframes colourShift {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+
+    @keyframes intenseglow {
+        0%, 100% {
+            filter: drop-shadow(0 0 8px rgba(33, 162, 222, 0.8)) drop-shadow(0 0 20px rgba(33, 162, 222, 0.4));
+        }
+        50% {
+            filter: drop-shadow(0 0 16px rgba(33, 162, 222, 1)) drop-shadow(0 0 32px rgba(93, 173, 226, 0.6));
+        }
+    }
+
+    @keyframes subtleglow {
+        0%, 100% {
+            filter: drop-shadow(0 0 4px rgba(33, 162, 222, 0.6));
+        }
+        50% {
+            filter: drop-shadow(0 0 10px rgba(93, 173, 226, 0.8));
+        }
+    }
+</style>
