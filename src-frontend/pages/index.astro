@@ -7,6 +7,12 @@ const mods = await fetchMods();
 ---
 
 <AppLayout title="sugardust">
-
+  <div class="w-full h-full">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-10 pb-8 pr-2 px-6">
+           {mods.map((mod) => (
+               <ModCard mod={mod} />
+           ))}
+      </div>
+  </div>
 </AppLayout>
 

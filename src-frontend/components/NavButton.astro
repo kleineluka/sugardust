@@ -4,38 +4,46 @@ interface Props {
     label: string;
     active?: boolean;
     url?: string;
+    radius?: string;
 }
 
-const { icon, label, active = false, url } = Astro.props;
+const { icon, label, active = false, url, radius = "12px" } = Astro.props;
 ---
 
-<!-- Navigation Button -->{
+{
     url ? (
         <a
             href={url}
             class={`nav-button ${active ? "nav-button-active" : ""}`}
             aria-current={active ? "page" : undefined}
+            style={`--radius: ${radius}`}
         >
             <img src={icon} alt={label} class="nav-icon" />
             <span class="nav-label">{label.toUpperCase()}</span>
         </a>
     ) : (
-        <button class={`nav-button ${active ? "nav-button-active" : ""}`}>
+        <button
+            class={`nav-button ${active ? "nav-button-active" : ""}`}
+            style={`--radius: ${radius}`}
+        >
             <img src={icon} alt={label} class="nav-icon" />
             <span class="nav-label">{label.toUpperCase()}</span>
         </button>
     )
 }
 
-<!-- CSS -->
 <style>
     .nav-button {
         display: flex;
         align-items: center;
         gap: clamp(8px, 1.2vw, 16px);
         padding: clamp(8px, 1.2vw + 4px, 16px) clamp(8px, 1.5vw, 24px);
-        border-radius: 12px;
-        background: linear-gradient(135deg, #1c698f 0%, #22739a 100%);
+        border-radius: var(--radius);
+        background: radial-gradient(
+            ellipse at center,
+            #22739a 0%,
+            #1c698f 100%
+        );
         border: 2px solid #2b739b;
         box-shadow:
             0 0 12px rgba(24, 91, 126, 0.6),
@@ -61,8 +69,8 @@ const { icon, label, active = false, url } = Astro.props;
     .nav-button-active {
         background: radial-gradient(
             ellipse at center,
-            #3d9abc 0%,
-            #2a7292 100%
+            #4ab8da 0%,
+            #358db5 100%
         );
         border: 2px solid #59a1c6;
         box-shadow:
@@ -88,12 +96,12 @@ const { icon, label, active = false, url } = Astro.props;
         font-size: clamp(18px, 2.2vw, 24px);
         line-height: 1.1;
         letter-spacing: 1.2px;
-        color: #a1d9e5;
+        color: #afe4ec;
         text-shadow:
-            -1px -1px 0 #2c7693,
-            1px -1px 0 #2c7693,
-            -1px 1px 0 #2c7693,
-            1px 1px 0 #2c7693,
+            -1px -1px 0 #327ea3,
+            1px -1px 0 #327ea3,
+            -1px 1px 0 #327ea3,
+            1px 1px 0 #327ea3,
             0 2px 4px rgba(0, 0, 0, 0.5);
         overflow: hidden;
         white-space: nowrap;

@@ -5,6 +5,7 @@ export interface ModData {
     version: string;
     author: string;
     description?: string;
+    enabled: boolean;
     // optional and trickier stuffs..
     tags?: string[];
     icon?: string; // path or base64

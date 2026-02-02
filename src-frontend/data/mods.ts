@@ -9,6 +9,7 @@ export const mockMods: ModData[] = [
         version: "4.2.0",
         author: "Kleine",
         description: "I just really like Kyu...",
+        enabled: true,
         tags: ["ui", "qol"],
         icon: "images/builtin/missing.webp",
         lastUpdated: "2026-02-01",
