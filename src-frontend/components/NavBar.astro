@@ -1,19 +1,21 @@
 ---
 import NavButton from "./NavButton.astro";
 
+const currentPath = Astro.url.pathname;
+
 const navItems = [
-    { icon: "/images/icons/gamepad.webp", label: "Installed", active: true },
-    { icon: "/images/icons/search.webp", label: "Browse", active: false },
-    { icon: "/images/icons/paint.webp", label: "Configuration", active: false },
-    { icon: "/images/icons/box.webp", label: "Profiles", active: false },
-    { icon: "/images/icons/heart.webp", label: "About", active: false },
+    { icon: "/images/icons/gamepad.webp", label: "Installed", url: "/", active: currentPath === "/" },
+    { icon: "/images/icons/search.webp", label: "Browse", url: "/browse", active: currentPath === "/browse" },
+    { icon: "/images/icons/paint.webp", label: "Configuration", url: "/config", active: currentPath === "/config" },
+    { icon: "/images/icons/box.webp", label: "Profiles", url: "/profiles", active: currentPath === "/profiles" },
+    { icon: "/images/icons/heart.webp", label: "About", url: "/about", active: currentPath === "/about" },
 ];
 ---
 
 <!-- Navigation Bar -->
 <nav class="navbar">
     {navItems.map((item) => (
-        <NavButton icon={item.icon} label={item.label} active={item.active} radius="6px" />
+        <NavButton icon={item.icon} label={item.label} url={item.url} active={item.active} radius="6px" />
     ))}
 </nav>
 

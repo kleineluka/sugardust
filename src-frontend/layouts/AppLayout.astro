@@ -2,8 +2,40 @@
 import "../styles/global.css";
 import NavBar from "../components/NavBar.astro";
 import StatusBar from "../components/StatusBar.astro";
+import { ClientRouter } from "astro:transitions";
 
-const { title } = Astro.props;
+interface StatusBoxData {
+    label: string;
+    value: string;
+    textColor?: string;
+    textOutlineColor?: string;
+}
+
+interface ToggleData {
+    leftLabel: string;
+    rightLabel: string;
+    defaultSelected?: 'left' | 'right';
+}
+
+interface SearchBarData {
+    placeholder?: string;
+}
+
+interface TagDropdownData {
+    tags?: string[];
+    placeholder?: string;
+}
+
+interface Props {
+    title: string;
+    statusBoxes?: StatusBoxData[];
+    searchBar?: SearchBarData;
+    toggle?: ToggleData;
+    tagDropdown?: TagDropdownData;
+    displayLogo?: boolean;
+}
+
+const { title, statusBoxes, searchBar, toggle, tagDropdown, displayLogo } = Astro.props;
 ---
 
 <!-- Main Webpage -->
@@ -13,6 +45,7 @@ const { title } = Astro.props;
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <title>{title}</title>
+        <ClientRouter />
     </head>
     <!-- Body -->
     <body class="h-screen w-screen overflow-hidden flex flex-col hp-checker-background">
@@ -21,7 +54,13 @@ const { title } = Astro.props;
             <div class="frame-border"></div>
             <!-- Status Bar -->
             <slot name="topbar">
-                <StatusBar />
+                <StatusBar 
+                    statusBoxes={statusBoxes}
+                    searchBar={searchBar}
+                    toggle={toggle}
+                    tagDropdown={tagDropdown}
+                    displayLogo={displayLogo}
+                />
             </slot>
             <!-- Content Per Page Goes Here! -->
             <main class="flex-1 h-full overflow-y-auto relative scroll-smooth p-6">

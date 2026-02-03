@@ -1,0 +1,189 @@
+---
+interface Props {
+    tags?: string[];
+    placeholder?: string;
+}
+
+const { tags = ['All', 'Gameplay', 'Graphics', 'Audio', 'UI', 'Utility', 'Library'], placeholder = 'Filter by tag' } = Astro.props;
+---
+
+<!-- Dropdown for tag selection -->
+<div class="dropdown-container">
+    <button class="dropdown-button" id="tag-dropdown-btn">
+        <span class="dropdown-text">{placeholder}</span>
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </button>
+    
+    <div class="dropdown-menu" id="tag-dropdown-menu">
+        {tags.map((tag) => (
+            <button class="dropdown-item" data-tag={tag}>
+                {tag}
+            </button>
+        ))}
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+    .dropdown-container {
+        position: relative;
+        width: 100%;
+        max-width: 10em;
+        z-index: 200; /* above status bar to allow interactions */
+    }
+
+    .dropdown-button {
+        width: 100%;
+        border: 3px solid #86DFE7;
+        border-radius: 8px;
+        padding: clamp(16px, 2.1vw, 24px) 16px;
+        background: linear-gradient(to top, #3B9EB5, #56BBCC);
+        box-shadow: inset 0 0 0 2px #3C8EA6;
+        font-size: 14px;
+        font-weight: 600;
+        color: #D5F3F7;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        outline: none;
+    }
+
+    .dropdown-button:hover {
+        border-color: #A8F5FF;
+        box-shadow: inset 0 0 0 2px #3C8EA6, 0 0 20px rgba(134, 223, 231, 0.4);
+        background: linear-gradient(to top, #45B0C8, #65D0E0);
+    }
+
+    .dropdown-text {
+        flex: 1;
+        text-align: left;
+    }
+
+    .dropdown-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-container.open .dropdown-icon {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        border: 3px solid #86DFE7;
+        border-radius: 8px;
+        background: linear-gradient(to top, #3B9EB5, #56BBCC);
+        box-shadow: inset 0 0 0 2px #3C8EA6, 0 8px 24px rgba(0, 0, 0, 0.3);
+        max-height: 280px;
+        overflow-y: auto;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-container.open .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .dropdown-item {
+        width: 100%;
+        padding: 12px 16px;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(60, 142, 166, 0.5);
+        color: #D5F3F7;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .dropdown-item:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #9CF5FF;
+    }
+
+    .dropdown-item.selected {
+        background: linear-gradient(to top, #45B0C8, #65D0E0);
+        color: #9CF5FF;
+        text-shadow: -1px -1px 0 #1A5C6E, 1px -1px 0 #1A5C6E, -1px 1px 0 #1A5C6E, 1px 1px 0 #1A5C6E;
+    }
+
+    .dropdown-menu::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .dropdown-menu::-webkit-scrollbar-track {
+        background: rgba(60, 142, 166, 0.3);
+        border-radius: 4px;
+    }
+
+    .dropdown-menu::-webkit-scrollbar-thumb {
+        background: #86DFE7;
+        border-radius: 4px;
+    }
+
+    .dropdown-menu::-webkit-scrollbar-thumb:hover {
+        background: #A8F5FF;
+    }
+</style>
+
+<!-- This is super hacky. Forgive me, King Liniere -->
+<script>
+    function initTagDropdown() {
+        const container = document.querySelector('.dropdown-container');
+        const button = document.getElementById('tag-dropdown-btn');
+        const menu = document.getElementById('tag-dropdown-menu');
+        const items = document.querySelectorAll('.dropdown-item');
+        const buttonText = button?.querySelector('.dropdown-text');
+        
+        button?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            container?.classList.toggle('open');
+        });
+        
+        const closeDropdown = () => {
+            container?.classList.remove('open');
+        };
+        
+        document.addEventListener('click', closeDropdown);
+
+        // clean up global listener before the next page swap to avoid leaks
+        document.addEventListener('astro:before-swap', () => {
+            document.removeEventListener('click', closeDropdown);
+        }, { once: true });
+        
+        items.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const tag = item.getAttribute('data-tag');
+                items.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                if (buttonText && tag) {
+                    buttonText.textContent = tag;
+                }
+                container?.classList.remove('open');
+                console.log('Tag selected:', tag);
+            });
+        });
+    }
+    
+    document.addEventListener('astro:page-load', initTagDropdown);
+</script>

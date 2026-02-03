@@ -1,11 +1,11 @@
 ---
 import AppLayout from "../layouts/AppLayout.astro";
 import ModCard from "../components/ModCard.astro";
-import { fetchInstalled } from "../data/installed";
+import { fetchMods } from "../data/mods";
 import type { UserData } from "../types/user";
 import type { ProfileData } from "../types/profile";
 
-const mods = await fetchInstalled();
+const mods = await fetchMods();
 
 // TODO: Fetch actual userData from Tauri backend
 const userData: UserData | null = null;

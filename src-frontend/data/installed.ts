@@ -2,7 +2,7 @@ import type { ModData } from "../types/mod";
 import { DATA_MODE } from "../config/runtime";
 
 // mock data for dev mode
-export const mockMods: ModData[] = [
+export const mockInstalled: ModData[] = [
     {
         id: "kyus-super-cute-mod",
         name: "KYU IS THE BEST!",
@@ -16,25 +16,12 @@ export const mockMods: ModData[] = [
         minimumGameVersion: "1.0.0",
         repository: "https://github.com/",
     },
-    {
-        id: "tiffany-homework-helper",
-        name: "Tiffany Homework Helper",
-        version: "2.5.1",
-        author: "Kleine",
-        description: "Makes Tiffany do your homework for you!",
-        enabled: false,
-        tags: ["utility", "automation"],
-        icon: "images/builtin/missing.webp",
-        lastUpdated: "2026-01-15",
-        minimumGameVersion: "1.0.0",
-        repository: "https://github.com",
-    }
 ];
 
-export async function fetchMods(): Promise<ModData[]> {
+export async function fetchInstalled(): Promise<ModData[]> {
     if (DATA_MODE === "dev") {
         // return mock data in dev mode
-        return mockMods;
+        return mockInstalled;
     } else {
         return [];
     }

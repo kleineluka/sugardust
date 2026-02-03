@@ -10,6 +10,7 @@ interface Props {
 const { icon, label, active = false, url, radius = "12px" } = Astro.props;
 ---
 
+<!-- Button -->
 {
     url ? (
         <a
@@ -32,6 +33,7 @@ const { icon, label, active = false, url, radius = "12px" } = Astro.props;
     )
 }
 
+<!-- CSS -->
 <style>
     .nav-button {
         display: flex;

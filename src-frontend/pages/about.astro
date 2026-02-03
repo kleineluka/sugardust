@@ -1,0 +1,35 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+
+const statusBoxes = [
+    {
+        label: "Star On",
+        value: "GitHub",
+        textColor: "#D4A8FF",
+        textOutlineColor: "#4A1E6B",
+    },
+    {
+        label: "Get Help In",
+        value: "Discord",
+        textColor: "#FFB88C",
+        textOutlineColor: "#6B3A1E",
+    },
+    {
+        label: "Read The",
+        value: "Guide",
+        textColor: "#A8F5A8",
+        textOutlineColor: "#1E5C1E",
+    },
+];
+---
+
+<AppLayout title="sugardust - About" statusBoxes={statusBoxes}>
+    <div class="w-full h-full px-2">
+        <!-- Footer -->
+        <div class="about-footer">
+            <p>Made with 💖 for the modding community</p>
+        </div>
+    </div>
+</AppLayout>
+
+<style></style>
