@@ -24,12 +24,84 @@ const statusBoxes = [
 ---
 
 <AppLayout title="sugardust - About" statusBoxes={statusBoxes}>
-    <div class="w-full h-full px-2">
-        <!-- Footer -->
-        <div class="about-footer">
-            <p>Made with 💖 for the modding community</p>
+    <div class="w-full h-full flex items-center justify-center p-4">
+        <div class="relative group w-96">
+            <!-- Main About Card -->
+            <div class="card-body relative rounded-2xl shadow-lg overflow-hidden p-8 pt-6">
+                <div class="credits text-center">
+                    <h2 class="credits-title">Credits</h2>
+                    <p class="credit-item">
+                        <span class="credit-label">sugardust mod manager:</span>
+                        <span class="credit-name">kleineluka</span>
+                    </p>
+                    <p class="credit-item">
+                        <span class="credit-label">hp2 modding tools:</span>
+                        <span class="credit-name">onesuchkeeper</span>
+                    </p>
+                    <p class="credit-item">
+                        <span class="credit-label">hunie series:</span>
+                        <span class="credit-name">huniepot</span>
+                    </p>
+                    <p class="tagline"><i>notice: a legal copy of the game is required to use sugardust</i></p>
+                </div>
+            </div>
+            <!-- Overlapping Title Box -->
+            <div class="title-box absolute -bottom-6 inset-x-0 mx-auto w-48 h-12 flex items-center justify-center rounded-lg shadow-md">
+                <div class="text-center">
+                    <span class="text-white font-bold uppercase tracking-wider">Thanks for the sex, homie.</span>
+                </div>
+            </div>
         </div>
     </div>
 </AppLayout>
 
-<style></style>
+<!-- CSS -->
+<style>
+  .card-body {
+    background: radial-gradient(circle, #1B3C4D 0%, #1C3C4B 100%);
+    border: 4px solid #162F3C;
+    box-shadow: 0 0 0 4px #63B8B8;
+  }
+
+  .title-box {
+    background: radial-gradient(circle, #46AABF 0%, #4EB2C5 100%);
+    border: 2px solid #378BA2;
+    box-shadow: 0 0 0 4px #86DFE7;
+  }
+
+  .credits-title {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.75rem;
+    color: var(--hp-teal-light);
+    margin-bottom: 1.5rem;
+    margin-top: -0.5rem;
+  }
+
+  .credit-item {
+    font-family: 'Exo', sans-serif;
+    font-size: 1rem;
+    margin: 0.75rem 0;
+    color: var(--hp-cream);
+    display: block;
+  }
+
+  .credit-label {
+    opacity: 0.7;
+    margin-right: 0.5rem;
+  }
+
+  .credit-name, .credit-tech {
+    color: var(--hp-teal-light);
+    font-weight: 600;
+  }
+
+  .tagline {
+    font-family: 'Exo', sans-serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--hp-cream);
+    opacity: 0.85;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+</style>

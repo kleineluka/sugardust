@@ -1,0 +1,122 @@
+---
+interface Props {
+    sectionName: string;
+    isExpanded?: boolean;
+}
+
+const { sectionName, isExpanded = true } = Astro.props;
+---
+
+<!-- Configuration Section -->
+<div class="config-section" data-section={sectionName}>
+    <button class="section-header" data-expanded={isExpanded}>
+        <div class="section-title-wrapper">
+            <svg class="section-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"></path>
+            </svg>
+            <h3 class="section-title">{sectionName}</h3>
+        </div>
+        <span class="section-badge">
+            <slot name="badge" />
+        </span>
+    </button>
+    <div class="section-content" data-expanded={isExpanded}>
+        <slot />
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+    .config-section {
+        background: linear-gradient(135deg, rgba(30, 90, 110, 0.6) 0%, rgba(40, 110, 130, 0.4) 100%);
+        border: 3px solid #4ab8c8;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .section-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: linear-gradient(to top, #2a8898, #3aa8b8);
+        border: none;
+        border-bottom: 2px solid #3a98a8;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .section-header:hover {
+        background: linear-gradient(to top, #3a98a8, #4ab8c8);
+    }
+
+    .section-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .section-chevron {
+        color: #c5f5ff;
+        transition: transform 0.3s ease;
+    }
+
+    .section-header[data-expanded="true"] .section-chevron {
+        transform: rotate(90deg);
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: #e5ffff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .section-badge {
+        font-size: 12px;
+        font-weight: 600;
+        color: #a5e5f5;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 4px 12px;
+        border-radius: 12px;
+    }
+
+    .section-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .section-content[data-expanded="false"] {
+        display: none;
+    }
+</style>
+
+<script>
+    function handleSectionClick(event: MouseEvent) {
+        const header = (event.target as HTMLElement).closest('.section-header');
+        if (!header) return;
+        
+        const section = header.closest('.config-section');
+        const content = section?.querySelector('.section-content');
+        const isExpanded = header.getAttribute('data-expanded') === 'true';
+        
+        header.setAttribute('data-expanded', (!isExpanded).toString());
+        content?.setAttribute('data-expanded', (!isExpanded).toString());
+    }
+
+    function initConfigSections() {
+        document.removeEventListener('click', handleSectionClick);
+        document.addEventListener('click', handleSectionClick);
+    }
+
+    document.addEventListener('DOMContentLoaded', initConfigSections);
+    document.addEventListener('astro:page-load', initConfigSections);
+</script>

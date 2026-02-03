@@ -1,0 +1,163 @@
+---
+interface Props {
+    id: string;
+    label: string;
+    description?: string;
+    defaultValue?: string;
+    checked?: boolean;
+}
+
+const { id, label, description, defaultValue, checked = false } = Astro.props;
+---
+
+<!-- Option for boolean configs -->
+<div class="config-toggle-container" data-entry-id={id}>
+    <div class="toggle-info">
+        <label class="toggle-label" for={id}>{label}</label>
+        {description && <p class="toggle-description">{description}</p>}
+        {defaultValue && <span class="toggle-default">Default: {defaultValue}</span>}
+    </div>
+    <div class="toggle-switch-wrapper">
+        <input 
+            type="checkbox" 
+            id={id} 
+            class="toggle-checkbox"
+            checked={checked}
+            data-default={defaultValue}
+        />
+        <label class="toggle-switch" for={id}>
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+    .config-toggle-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: linear-gradient(to top, #2a7a8a, #3a9aaa);
+        border: 3px solid #5fc8d8;
+        border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #2a6a7a, 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        gap: 16px;
+    }
+
+    .config-toggle-container:hover {
+        border-color: #7fe8f8;
+        box-shadow: inset 0 0 0 2px #2a6a7a, 0 4px 16px rgba(95, 200, 216, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .toggle-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .toggle-label {
+        font-size: 15px;
+        font-weight: 700;
+        color: #e5ffff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+    .toggle-description {
+        font-size: 12px;
+        color: #b5e5ef;
+        margin: 0;
+        line-height: 1.4;
+        opacity: 0.9;
+    }
+
+    .toggle-default {
+        font-size: 11px;
+        color: #85c5d5;
+        font-style: italic;
+    }
+
+    .toggle-switch-wrapper {
+        flex-shrink: 0;
+    }
+
+    .toggle-checkbox {
+        display: none;
+    }
+
+    .toggle-switch {
+        display: block;
+        width: 56px;
+        height: 30px;
+        background: linear-gradient(to top, #1a4a5a, #2a5a6a);
+        border: 2px solid #3a6a7a;
+        border-radius: 15px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .toggle-slider {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(to top, #d5e5e8, #ffffff);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .toggle-checkbox:checked + .toggle-switch {
+        background: linear-gradient(to top, var(--hp-teal), var(--hp-teal-light));
+        border-color: #7fe8f8;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 12px rgba(93, 212, 205, 0.4);
+    }
+
+    .toggle-checkbox:checked + .toggle-switch .toggle-slider {
+        transform: translateX(26px);
+        background: linear-gradient(to top, #fff8f0, #ffffff);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+
+    .toggle-switch:hover {
+        border-color: #5ac0d0;
+    }
+
+    .toggle-switch:active .toggle-slider {
+        width: 24px;
+    }
+
+    .toggle-checkbox:checked + .toggle-switch:active .toggle-slider {
+        transform: translateX(22px);
+    }
+</style>
+
+<script>
+    function initConfigToggles() {
+        const toggles = document.querySelectorAll('.config-toggle-container .toggle-checkbox');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const checkbox = e.target as HTMLInputElement;
+                const container = checkbox.closest('.config-toggle-container');
+                const entryId = container?.getAttribute('data-entry-id');
+                const value = checkbox.checked ? 'true' : 'false';
+                const event = new CustomEvent('config-change', {
+                    bubbles: true,
+                    detail: { entryId, value, type: 'Boolean' }
+                });
+                document.dispatchEvent(event);
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initConfigToggles);
+    document.addEventListener('astro:page-load', initConfigToggles);
+</script>
